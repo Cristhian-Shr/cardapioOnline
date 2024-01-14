@@ -169,6 +169,11 @@ b {
   bottom: 10px;
 }
 
+.btn-yellow:hover {
+  background-color: var(--color-white);
+  color: var(--color-primary) !important;
+}
+
 .btn-white:hover {
   background-color: var(--color-primary);
   color: var(--color-black) !important;
