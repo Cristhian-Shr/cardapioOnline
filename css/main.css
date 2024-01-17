@@ -329,3 +329,88 @@ b {
   color: var(--color-black-heavy) !important;
   margin-top: 20px;
 }
+
+/* Seção depoimentos */
+.depoimentos {
+  padding-top: 100px;
+  padding-bottom: 150px;
+}
+
+.card-depoimentos {
+  height: 390px;
+  width: 390px;
+  border-radius: 120px;
+  background-color: var(--color-secondary);
+  position: absolute;
+  left: 0;
+}
+
+.container-dados-depoimentos {
+  display: flex;
+}
+
+.depoimento {
+  margin-top: 70px;
+}
+
+.imagem-depoimento {
+  width: 65px;
+  height: 65px;
+  background-color: var(--color-white);
+  border-radius: 50px;
+  background-repeat: no-repeat;
+  margin-right: 15px;
+  background-position: center;
+}
+
+#depoimento-1 .imagem-depoimento {
+  background-image: url(../img/diego.jpg);
+  background-size: cover;
+}
+
+#depoimento-2 .imagem-depoimento {
+  background-image: url(../img/ana.jpg);
+  background-size: cover;
+}
+
+#depoimento-3 .imagem-depoimento {
+  background-image: url(../img/joao.jpg);
+  background-size: cover;
+}
+
+.nome-depoimento {
+  color: var(--color-black);
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.nota-depoimento {
+  color: var(--color-primary);
+}
+
+.nota-depoimento span {
+  color: var(--color-black-heavy);
+}
+
+.texto-depoimento {
+  display: flex;
+  font-size: 16px;
+  color: var(--color-black);
+}
+
+.texto-depoimento i {
+  font-size: 35px;
+  color: var(--color-primary);
+}
+
+.texto-depoimento i:first-child {
+  padding-left: 10px;
+  padding-right: 35px;
+}
+
+.texto-depoimento i:last-child {
+  padding-left: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
