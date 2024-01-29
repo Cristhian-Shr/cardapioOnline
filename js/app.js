@@ -24,7 +24,8 @@ cardapio.metodos = {
       let temp = cardapio.templates.item
         .replace(/\${img}/g, e.img)
         .replace(/\${name}/g, e.name)
-        .replace(/\${price}/g, e.price.toFixed(2).replace(".", ","));
+        .replace(/\${price}/g, e.price.toFixed(2).replace(".", ","))
+        .replace(/\${id}/g, e.id);
 
       if (vermais && i >= 8 && i < 12) {
         $("#itensCardapio").append(temp);
@@ -43,12 +44,18 @@ cardapio.metodos = {
 
     $("#btnVerMais").addClass("hidden");
   },
+
+  diminuirQuantidade: (id) => {
+    let qntdAtual;
+  },
+
+  aumentarQuantidade: () => {},
 };
 
 cardapio.templates = {
   item: `
     <div class="col-3 mb-5">
-    <div class="card card-item">
+    <div class="card card-item" id="\${id}">
         <div class="img-produto">
             <img src="\${img}" alt="hamburger">
         </div>
@@ -59,9 +66,9 @@ cardapio.templates = {
             <b>R$ \${price}</b>
         </p>
         <div class="add-carrinho">
-            <span class="btn-menos"><i class="fas fa-minus"></i></span>
-            <span class="add-numero-itens">0</span>
-            <span class="btn-mais"><i class="fas fa-plus"></i></span>
+            <span class="btn-menos" onclick="cardapio.metodos.diminuirQuantidade('\${id}')"><i class="fas fa-minus"></i></span>
+            <span class="add-numero-itens" id="qntd-\${id}" >0</span>
+            <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidade('\${id}')"><i class="fas fa-plus"></i></span>
             <span class="btn btn-add"><i class="fas fa-shopping-bag"></i></span>
         </div>
     </div>
