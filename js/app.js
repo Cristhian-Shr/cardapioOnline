@@ -4,6 +4,8 @@ $(document).ready(function () {
 
 var cardapio = {};
 
+var MEU_CARRINHO = [];
+
 cardapio.eventos = {
   init: () => {
     cardapio.metodos.obterItensCardapio();
@@ -46,10 +48,49 @@ cardapio.metodos = {
   },
 
   diminuirQuantidade: (id) => {
-    let qntdAtual;
+    let qntdAtual = parseInt($("#qntd-" + id).text());
+
+    if (qntdAtual > 0) {
+      $("#qntd-" + id).text(qntdAtual - 1);
+    }
   },
 
-  aumentarQuantidade: () => {},
+  aumentarQuantidade: (id) => {
+    let qntdAtual = parseInt($("#qntd-" + id).text());
+    $("#qntd-" + id).text(qntdAtual + 1);
+  },
+
+  adicionarAoCarrinho: (id) => {
+    let qntdAtual = parseInt($("#qntd-" + id).text());
+
+    if (qntdAtual > 0) {
+      var categoria = $(".container-menu a.active")
+        .attr("id")
+        .split("menu-")[1];
+
+      let filtro = MENU[categoria];
+
+      let item = $.grep(filtro, (e, i) => {
+        return e.id == id;
+      });
+
+      if (item.length > 0) {
+        let existe = $.grep(MEU_CARRINHO, (elem, index) => {
+          return elem.id == id;
+        });
+
+        if (existe.length > 0) {
+          let objIndex = MEU_CARRINHO.findIndex((obj) => obj.id == id);
+          MEU_CARRINHO[objIndex].qntd = MEU_CARRINHO[objIndex].qntd + qntdAtual;
+        } else {
+          item[0].qntd = qntdAtual;
+          MEU_CARRINHO.push(item[0]);
+        }
+
+        $("#qntd-" + id).text(0);
+      }
+    }
+  },
 };
 
 cardapio.templates = {
@@ -69,7 +110,7 @@ cardapio.templates = {
             <span class="btn-menos" onclick="cardapio.metodos.diminuirQuantidade('\${id}')"><i class="fas fa-minus"></i></span>
             <span class="add-numero-itens" id="qntd-\${id}" >0</span>
             <span class="btn-mais" onclick="cardapio.metodos.aumentarQuantidade('\${id}')"><i class="fas fa-plus"></i></span>
-            <span class="btn btn-add"><i class="fas fa-shopping-bag"></i></span>
+            <span class="btn btn-add" onclick="cardapio.metodos.adicionarAoCarrinho('\${id}')"><i class="fas fa-shopping-bag"></i></span>
         </div>
     </div>
 </div>
