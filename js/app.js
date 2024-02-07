@@ -191,16 +191,49 @@ cardapio.metodos = {
       });
     } else {
       $("#itensCarrinho").html(
-        "<p><i class='fa fa-shopping-bag'></i> Sua sacola esta vazia!</p>"
+        "<p class='carrinho-vazio'><i class='fa fa-shopping-bag'></i> Sua sacola esta vazia!</p>"
       );
     }
   },
 
-  diminuirQuantidadeCarrinho: (id) => {},
+  //diminuir a quantidade do item no carrinho
+  diminuirQuantidadeCarrinho: (id) => {
+    let qntdAtual = parseInt($("#qntd-carrinho-" + id).text());
 
-  aumentarQuantidadeCarrinho: (id) => {},
+    if (qntdAtual > 1) {
+      $("#qntd-carrinho-" + id).text(qntdAtual - 1);
+      cardapio.metodos.atualizarCarrinho(id, qntdAtual - 1);
+    } else {
+      cardapio.metodos.removerItemCarrinho(id);
+    }
+  },
 
-  removerItemCarrinho: (id) => {},
+  //aumentar a quantidade do item no carrinho
+  aumentarQuantidadeCarrinho: (id) => {
+    let qntdAtual = parseInt($("#qntd-carrinho-" + id).text());
+
+    $("#qntd-carrinho-" + id).text(qntdAtual + 1);
+    cardapio.metodos.atualizarCarrinho(id, qntdAtual + 1);
+  },
+
+  //btn remover item do carrinho
+  removerItemCarrinho: (id) => {
+    MEU_CARRINHO = $.grep(MEU_CARRINHO, (e, i) => {
+      return e.id != id;
+    });
+    cardapio.metodos.carregarCarrinho();
+
+    //atualiza o botão carrinho com a quantidade atualizado
+    cardapio.metodos.atualizarBadgeTotal();
+  },
+
+  //atualizar o carrinho com a quantidade atual
+  atualizarCarrinho: (id, qntd) => {
+    let objIndex = MEU_CARRINHO.findIndex((obj) => obj.id == id);
+    MEU_CARRINHO[objIndex].qntd = qntd;
+
+    cardapio.metodos.atualizarBadgeTotal();
+  },
 
   mensagem: (texto, cor = "red", tempo = 2500) => {
     let id = Math.floor(Date.now() * Math.random()).toString();
