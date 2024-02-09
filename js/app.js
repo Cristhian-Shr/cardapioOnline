@@ -270,6 +270,50 @@ cardapio.metodos = {
     });
   },
 
+  carregarEndereco: () => {
+    if (MEU_CARRINHO.length <= 0) {
+      cardapio.metodos.mensagem("Seu carrinho esta vazio.");
+    }
+
+    cardapio.metodos.carregarEtapa(2);
+  },
+
+  //API ViaCEP
+  buscarCep: () => {
+    var cep = $("#txtCEP").val().trim().replace(/\D/g, "");
+
+    if (cep != "") {
+      var validacep = /^[0-9]{8}$/;
+      if (validacep.test(cep)) {
+        $.getJSON(
+          "https://viacep.com.br/ws/" + cep + "/json/?callback=?",
+          function (dados) {
+            if (!("erro" in dados)) {
+              $("txtEndereco").val(dados.logradouro);
+              $("txtBairro").val(dados.bairro);
+              $("txtCidade").val(dados.localidade);
+              $("ddlUf").val(dados.uf);
+
+              $("txtNumero").focus();
+            } else {
+              cardapio.metodos.mensagem(
+                "CEP não encontrado! Preencha as informações manualmente."
+              );
+              $("#txtEndereco").focus();
+            }
+          }
+        );
+      } else {
+        cardapio.metodos.mensagem("Formato do CEP inválido!");
+        $("#txtCEP").focus();
+      }
+    } else {
+      cardapio.metodos.mensagem("Por favor, informe o CEP!");
+      $("#txtCEP").focus();
+    }
+  },
+
+  // mensagens
   mensagem: (texto, cor = "red", tempo = 2500) => {
     let id = Math.floor(Date.now() * Math.random()).toString();
 
