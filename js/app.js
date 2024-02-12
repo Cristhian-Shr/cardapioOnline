@@ -273,6 +273,7 @@ cardapio.metodos = {
   carregarEndereco: () => {
     if (MEU_CARRINHO.length <= 0) {
       cardapio.metodos.mensagem("Seu carrinho esta vazio.");
+      return;
     }
 
     cardapio.metodos.carregarEtapa(2);
@@ -280,24 +281,26 @@ cardapio.metodos = {
 
   //API ViaCEP
   buscarCep: () => {
+    //cria variavel com valor do cep
     var cep = $("#txtCEP").val().trim().replace(/\D/g, "");
 
+    //verifica se o CEP possui valor informado
     if (cep != "") {
       var validacep = /^[0-9]{8}$/;
       if (validacep.test(cep)) {
         $.getJSON(
-          "https://viacep.com.br/ws/" + cep + "/json/?callback=?",
+          "https://viacep.com.br/ws/" + cep + "/json/",
           function (dados) {
             if (!("erro" in dados)) {
-              $("txtEndereco").val(dados.logradouro);
-              $("txtBairro").val(dados.bairro);
-              $("txtCidade").val(dados.localidade);
-              $("ddlUf").val(dados.uf);
+              $("#txtEndereco").val(dados.logradouro);
+              $("#txtBairro").val(dados.bairro);
+              $("#txtCidade").val(dados.localidade);
+              $("#ddlUf").val(dados.uf);
 
-              $("txtNumero").focus();
+              $("#txtNumero").focus();
             } else {
               cardapio.metodos.mensagem(
-                "CEP não encontrado! Preencha as informações manualmente."
+                "CEP não encontrado. Preencha as informações corretamente!"
               );
               $("#txtEndereco").focus();
             }
