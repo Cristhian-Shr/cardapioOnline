@@ -289,9 +289,10 @@ cardapio.metodos = {
       var validacep = /^[0-9]{8}$/;
       if (validacep.test(cep)) {
         $.getJSON(
-          "https://viacep.com.br/ws/" + cep + "/json/",
+          "https://viacep.com.br/ws/" + cep + "/json/?callback=?",
           function (dados) {
             if (!("erro" in dados)) {
+              //atualizar os campos com os valores retornados
               $("#txtEndereco").val(dados.logradouro);
               $("#txtBairro").val(dados.bairro);
               $("#txtCidade").val(dados.localidade);
@@ -300,7 +301,7 @@ cardapio.metodos = {
               $("#txtNumero").focus();
             } else {
               cardapio.metodos.mensagem(
-                "CEP não encontrado. Preencha as informações corretamente!"
+                "CEP não encontrado. Preenha novamente!"
               );
               $("#txtEndereco").focus();
             }
